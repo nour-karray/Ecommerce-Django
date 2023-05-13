@@ -1,0 +1,47 @@
+{% extends 'magasin/base.html' %}
+
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center mb-4">{{ calendar.month_name }} {{ calendar.year }}</h1>
+        <div class="d-flex justify-content-center mb-4">
+          <a href="{{ prev_month }}" class="btn btn-secondary mr-2">&lt; Mois précédent</a>
+          <a href="{{ next_month }}" class="btn btn-secondary">&gt; Mois suivant</a>
+        </div>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              {% for day in calendar.day_names %}
+                <th class="text-center">{{ day }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for week in calendar %}
+              <tr>
+                {% for day, events in week %}
+                {% if day %}
+                    <td class="day{% if events %} has-events{% endif %}">
+                        <div class="day-number">{{ day }}</div>
+                        {% for event in events %}
+                            <div class="event">
+                                <a href="{% url 'edit_event' event.pk %}">{{ event.title }}</a>
+                            </div>
+                        {% endfor %}
+                    </td>
+                {% else %}
+                    <td class="noday">&nbsp;</td>
+                {% endif %}
+            {% endfor %}
+            
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <a href="{% url 'create_event' %}" class="btn btn-primary mt-2">Ajouter un événement</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

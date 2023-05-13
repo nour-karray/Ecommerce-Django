@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>
+        {% block title %} {% endblock %}
+    </title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel='stylesheet' type='text/css' media='screen' href="{% static 'css/base.css'%}">
+
+    {% block styles %}
+    <style>
+        .navbar {
+            background-color: rgb(194, 194, 197);
+            color: black;
+            font-weight: bold;
+        }
+
+        .navbar-brand img {
+            margin-left: 10px;
+        }
+
+        .navbar-nav .nav-link {
+            color: black;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white;
+        }
+
+        .dropdown-menu {
+            background-color: rgb(101, 106, 194);
+        }
+
+        .dropdown-menu .dropdown-item {
+            color: white;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar .form-control {
+            border-color: #6c757d;
+        }
+
+        .navbar .btn-outline-dark {
+            color: black;
+            border-color: #6c757d;
+        }
+
+        .navbar .btn-outline-dark:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    {% endblock %}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img src="/static/images/shopping.png" height="40px" width="50px"
+                    alt="chariot"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-basket"></i>Commerce
+                            électronique</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'indexA' %}">Acceuil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Catalogue
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'index'%}">Ajout Produit</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'Catalogue'%}">Catalogue</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            List Fournisseurs
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{% url 'nouvFournisseur' %}">Ajout Fournisseur</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'fournisseurs' %}">Fournisseurs</a></li>
+                        </ul>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            List Categories
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'create_categorie' %}">Ajout Categorie</a></li>
+                            <li><a class="dropdown-item" href="{% url 'ListCategorie' %}">Categories</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            List Commandes
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'create_commande' %}">Ajout Commande</a></li>
+                            <li><a class="dropdown-item" href="{% url 'ListCommande' %}">Commandes</a></li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <form class="d-flex" method="GET" action="{% url 'search' %}">
+                        <input type="text" name="q" class="form-control me-2" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-dark" type="submit">Search</button>
+                    </form>
+                </ul>
+                <ul class="navbar-nav me-2">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'CreateProduct' %}">Add Store</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'CatalogueProduct' %}">Catalogue Store</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown
+                                aria-expanded">
+                            {{user}}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'change_password' %}">Modifier le mot de passe</a>
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Déconnexion</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Inscription</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'store' %}">Store</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %} {% endblock %}
+
+</body>
+
+</html>

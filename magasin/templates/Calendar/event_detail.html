@@ -1,0 +1,8 @@
+{% extends 'magasin/base.html' %}
+
+{% block content %}
+  <h1>{{ event.title }}</h1>
+  <p>{{ event.start_time|date:"F j, Y" }} - {{ event.end_time|date:"F j, Y" }}</p>
+  <p>{{ event.start_time|time:"g:i A" }} - {{ event.end_time|time:"g:i A" }}</p>
+  <p>{{ event.description }}</p>
+{% endblock %}
